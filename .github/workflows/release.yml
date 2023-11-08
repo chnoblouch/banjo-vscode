@@ -18,6 +18,9 @@ jobs:
     - name: Install VSCE
       run: npm install -g @vscode/vsce
     
+    - name: Install dependencies
+      run: npm install
+
     - name: Package
       run: vsce package -o banjo-language.vsix
 
