@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        type: string
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install VSCE
+      run: npm install -g @vscode/vsce
+    
+    - name: Package
+      run: vsce package -o banjo-language.vsix
+
+    - name: Release
+      run: |
+        gh release create \
+          -t "banjo-vscode ${{ inputs.version }}" \
+          -n "banjo-vscode ${{ inputs.version }}" \
+          "v${{ inputs.version }}" \
+          banjo-language.six
