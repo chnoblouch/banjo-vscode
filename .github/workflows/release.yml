@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  package:
+  release:
     runs-on: ubuntu-latest
     
     steps:
@@ -20,6 +20,9 @@ jobs:
     
     - name: Install dependencies
       run: npm install
+
+    - name: Build
+      run: npx tsc
 
     - name: Package
       run: vsce package -o banjo-language.vsix
