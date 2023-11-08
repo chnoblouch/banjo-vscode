@@ -33,6 +33,6 @@ jobs:
           -t "banjo-vscode ${{ inputs.version }}" \
           -n "banjo-vscode ${{ inputs.version }}" \
           "v${{ inputs.version }}" \
-          banjo-language.six
+          banjo-language.vsix
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
