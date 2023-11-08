@@ -1,0 +1,189 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Banjo",
+	"patterns": [
+		{
+			"include": "#code"
+		}
+	],
+	"repository": {
+		"code": {
+			"patterns": [
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#numbers"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#characters"
+				},
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#variables"
+				},
+				{
+					"name": "support.type.primitive.banjo",
+					"match": "\\b((i|u)(8|16|32|64|size)|f32|f64|bool|addr|str)\\b"
+				},
+				{
+					"name": "type-ascription.banjo",
+					"match": "\\->\\s*([a-zA-Z0-9_]+)",
+					"captures": {
+						"1": {
+							"name": "support.type.banjo"
+						}
+					}
+				},
+				{
+					"name": "support.variable.banjo",
+					"match": "\\b(var)\\s*([a-zA-Z0-9_]+)?\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.other.banjo"
+						},
+						"2": {
+							"name": "variable.name.banjo"
+						}
+					}
+				},
+				{
+					"name": "import.banjo",
+					"match": "\\b(import)\\s+([a-zA-Z0-9_]+)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.other.banjo"
+						},
+						"2": {
+							"name": "entity.name.type"
+						}
+					}
+				},
+				{
+					"name": "use.banjo",
+					"match": "\\b(use)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.other.banjo"
+						}
+					}
+				},
+				{
+					"name": "support.class.banjo",
+					"match": "\\b(struct|enum)\\s+([a-zA-Z0-9_]+)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.other.banjo"
+						},
+						"2": {
+							"name": "entity.name.class"
+						}
+					}
+				},
+				{
+					"include": "#function-call"
+				},
+				{
+					"name": "variable.banjo",
+					"match": "\\b[a-zA-Z0-9_]+\\b"
+				}
+			]
+		},
+		"function-call": {
+			"begin": "([a-zA-Z0-9_]+)\\s*\\(",
+			"beginCaptures": {
+				"1": {
+					"name": "entity.name.function.banjo"
+				}
+			},
+			"end": "\\)",
+			"patterns": [
+				{
+					"include": "#code"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "variable.language.banjo",
+					"match": "\\bself\\b"
+				},
+				{
+					"name": "meta.function.declaration.banjo",
+					"patterns": [
+						{
+							"match": "\\b(func)\\s+([a-zA-Z0-9_]+)\\b",
+							"captures": {
+								"1": {
+									"name": "keyword.other.banjo"
+								},
+								"2": {
+									"name": "entity.name.function.banjo"
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.banjo",
+					"match": "\\b(if|else|while|for|break|continue|return)\\b"
+				},
+				{
+					"name": "keyword.const.banjo",
+					"match": "\\b(false|true|null|undefined|none)\\b"
+				},
+				{
+					"name": "keyword.other.banjo",
+					"match": "\\b(pub|const|export|as|native|in|meta|type|except)\\b"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.banjo",
+					"match": "\\b[0-9\\.]+\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.banjo",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.banjo",
+					"match": "\\\\."
+				}
+			]
+		},
+		"characters": {
+			"name": "constant.character.banjo",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.banjo",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.number-sign",
+				"match": "#.*$"
+			}]
+		}
+	},
+	"scopeName": "source.bnj"
+}

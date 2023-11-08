@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+  <clipPath id="clip">
+    <circle cx="64" cy="64" r="60" />
+  </clipPath>
+
+  <circle cx="64" cy="64" r="60" stroke="#7b6cd9" stroke-width="8" fill="none" />
+  <polygon points="-32,128 24,80 44,36 70,16 66,32 88,58 112,69 105,89 79,92 75,128" fill="#7b6cd9" style="clip-path: url(#clip)" /> 
+</svg>

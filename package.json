@@ -1,0 +1,84 @@
+{
+    "name": "banjo-language",
+    "displayName": "Banjo Language",
+    "description": "Banjo language integration",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Chnoblouch/banjo-vscode"
+    },
+    "engines": {
+        "vscode": "^1.65.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onLanguage:banjo"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "languages": [
+            {
+                "id": "banjo",
+                "aliases": [
+                    "Banjo",
+                    "banjo"
+                ],
+                "extensions": [
+                    ".bnj"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "light": "./icons/old/icon.png",
+                    "dark": "./icons/old/icon_dark.png"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "banjo",
+                "scopeName": "source.bnj",
+                "path": "./syntaxes/banjo.tmLanguage.json"
+            }
+        ],
+        "taskDefinitions": [
+            {
+                "type": "banjo",
+                "required": [
+                    "command"
+                ],
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "The Banjo command to run"
+                    }
+                }
+            }
+        ],
+        "configuration": {
+            "title": "Banjo",
+            "properties": {
+                "banjo.target": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Target platform to pass to the LSP server"
+                }
+            }
+        }
+    },
+    "dependencies": {
+        "vscode-languageclient": "^8.0.1"
+    },
+    "devDependencies": {
+        "@types/mocha": "^9.1.0",
+        "@types/node": "^16.11.7",
+        "@types/vscode": "^1.63.0",
+        "@typescript-eslint/eslint-plugin": "^5.30.0",
+        "@typescript-eslint/parser": "^5.30.0",
+        "@vscode/test-electron": "^2.1.2",
+        "eslint": "^8.13.0",
+        "mocha": "^9.2.1",
+        "typescript": "^4.8.2"
+    }
+}
