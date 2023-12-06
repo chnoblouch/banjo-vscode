@@ -172,9 +172,9 @@
 			]
 		},
 		"characters": {
-			"name": "constant.character.banjo",
-			"begin": "'",
-			"end": "'",
+			"name": "string.quoted.single.banjo",
+			"begin": "\\'",
+			"end": "\\'",
 			"patterns": [
 				{
 					"name": "constant.character.escape.banjo",
@@ -183,10 +183,12 @@
 			]
 		},
 		"comments": {
-			"patterns": [{
-				"name": "comment.line.number-sign",
-				"match": "#.*$"
-			}]
+			"patterns": [
+				{
+					"name": "comment.line.number-sign",
+					"match": "#.*$"
+				}
+			]
 		}
 	},
 	"scopeName": "source.bnj"
