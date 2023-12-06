@@ -89,6 +89,10 @@
 					"include": "#function-call"
 				},
 				{
+					"name": "entity.name.function.ascription.banjo",
+					"match": "@(\\s*\\[[a-zA-Z0-0_=\\s]*\\]|[a-zA-Z0-0_=]+)?"
+				},
+				{
 					"name": "variable.banjo",
 					"match": "\\b[a-zA-Z0-9_]+\\b"
 				}
@@ -152,7 +156,7 @@
 			"patterns": [
 				{
 					"name": "constant.numeric.banjo",
-					"match": "\\b[0-9\\.]+\\b"
+					"match": "\\b([0-9\\.]+|0x[0-9a-zA-Z]+)\\b"
 				}
 			]
 		},
