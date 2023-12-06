@@ -90,7 +90,7 @@
 				},
 				{
 					"name": "entity.name.function.ascription.banjo",
-					"match": "@(\\s*\\[[a-zA-Z0-0_=\\s]*\\]|[a-zA-Z0-0_=]+)?"
+					"match": "@(\\s*\\[[a-zA-Z0-0_=,\\s]*\\]|[a-zA-Z0-0_=]+)?"
 				},
 				{
 					"name": "variable.banjo",
