@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as path from "path";
 import { LanguageClient, LanguageClientOptions, Executable } from "vscode-languageclient/node";
 import { BanjoTaskProvider } from "./taskProvider";
 
@@ -22,47 +23,55 @@ export function activate(context: vscode.ExtensionContext) {
     })
 }
 
-function startServer() {
-    let workspaceConfig = vscode.workspace.getConfiguration("banjo");
-    const configURI = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, "banjo.json");
+async function startServer() {
+    const workspaceConfig = vscode.workspace.getConfiguration("banjo");
+    const configURIs = await vscode.workspace.findFiles("**/banjo.json");
 
-    vscode.workspace.openTextDocument(configURI).then((document) => {
-        const config = JSON.parse(document.getText());
-        const mainModule = config["main_module"];
+    if (configURIs.length == 0) {
+        return;
+    }
 
-        let target = workspaceConfig.get<string>("target");
-        let arch = "x86_64";
-        let os = "windows";
+    const configURI = configURIs[0];
+    const document = await vscode.workspace.openTextDocument(configURI);
 
-        if (target !== null) {
-            let elements = target.split('-')
-            arch = elements[0]
-            os = elements[1]
+    const config = JSON.parse(document.getText());
+    const mainModule = config["main_module"];
+
+    let target = workspaceConfig.get<string>("target");
+    let arch = "x86_64";
+    let os = "windows";
+
+    if (target !== null) {
+        let elements = target.split('-')
+        arch = elements[0]
+        os = elements[1]
+    }
+
+    let serverOptions: Executable = {
+        command: "banjo-lsp",
+        args: [
+            "--main-module", mainModule,
+            "--arch", arch,
+            "--os", os
+        ],
+        options: {
+            cwd: path.dirname(configURI.fsPath)
         }
+    };
 
-        let serverOptions: Executable = {
-            command: "banjo-lsp",
-            args: [
-                "--main-module", mainModule,
-                "--arch", arch,
-                "--os", os
-            ]
-        };
+    let clientOptions: LanguageClientOptions = {
+        documentSelector: [{ scheme: "file", language: "banjo" }],
+        outputChannel: outputChannel,
+    };
 
-        let clientOptions: LanguageClientOptions = {
-            documentSelector: [{ scheme: "file", language: "banjo" }],
-            outputChannel: outputChannel,
-        };
+    client = new LanguageClient(
+        "banjoLanguageClient",
+        "Banjo Language Client",
+        serverOptions,
+        clientOptions
+    );
 
-        client = new LanguageClient(
-            "banjoLanguageClient",
-            "Banjo Language Client",
-            serverOptions,
-            clientOptions
-        );
-
-        client.start();
-    });
+    client.start();
 }
 
 export function deactivate(): Thenable<void> | undefined {
