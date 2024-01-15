@@ -75,7 +75,7 @@
 				},
 				{
 					"name": "support.class.banjo",
-					"match": "\\b(struct|enum)\\s+([a-zA-Z0-9_]+)\\b",
+					"match": "\\b(struct|enum|union)\\s+([a-zA-Z0-9_]+)\\b",
 					"captures": {
 						"1": {
 							"name": "keyword.other.banjo"
@@ -140,7 +140,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.banjo",
-					"match": "\\b(if|else|while|for|break|continue|return)\\b"
+					"match": "\\b(if|else|switch|case|while|for|break|continue|return)\\b"
 				},
 				{
 					"name": "keyword.const.banjo",
