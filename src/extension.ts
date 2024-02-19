@@ -25,18 +25,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 async function startServer() {
     const workspaceConfig = vscode.workspace.getConfiguration("banjo");
-    const configURIs = await vscode.workspace.findFiles("**/banjo.json");
+    let configURIs = await vscode.workspace.findFiles("**/banjo.json");
+    configURIs = configURIs.filter(configURI => path.basename(path.dirname(path.dirname(configURI.path))) != "packages")
 
     if (configURIs.length == 0) {
         return;
     }
 
     const configURI = configURIs[0];
-    const document = await vscode.workspace.openTextDocument(configURI);
-
-    const config = JSON.parse(document.getText());
-    const mainModule = config["main_module"];
-
+    
     let target = workspaceConfig.get<string>("target");
     let arch = "x86_64";
     let os = "windows";
@@ -50,7 +47,6 @@ async function startServer() {
     let serverOptions: Executable = {
         command: "banjo-lsp",
         args: [
-            "--main-module", mainModule,
             "--arch", arch,
             "--os", os
         ],
