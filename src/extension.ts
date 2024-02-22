@@ -1,39 +1,42 @@
 import * as vscode from "vscode";
 import * as path from "path";
+import * as fs from "fs";
 import { LanguageClient, LanguageClientOptions, Executable } from "vscode-languageclient/node";
 import { BanjoTaskProvider } from "./taskProvider";
 
 let taskProvider: vscode.Disposable | undefined;
-let client: LanguageClient;
+let client: LanguageClient | null;
 let outputChannel: vscode.OutputChannel;
 
 export function activate(context: vscode.ExtensionContext) {
     taskProvider = vscode.tasks.registerTaskProvider(BanjoTaskProvider.BanjoType, new BanjoTaskProvider());
 
-    outputChannel = vscode.window.createOutputChannel("Banjo Language Server");
+    outputChannel = vscode.window.createOutputChannel("Banjo");
     context.subscriptions.push(outputChannel);
 
     startServer();
 
     vscode.workspace.onDidChangeConfiguration(event => {
-        if (event.affectsConfiguration("banjo.target")) {
-            client.stop();
-            startServer();
+        if (event.affectsConfiguration("banjo.projectFile") || event.affectsConfiguration("banjo.target")) {
+            restartServer();
         }
     })
 }
 
 async function startServer() {
-    const workspaceConfig = vscode.workspace.getConfiguration("banjo");
-    let configURIs = await vscode.workspace.findFiles("**/banjo.json");
-    configURIs = configURIs.filter(configURI => path.basename(path.dirname(path.dirname(configURI.path))) != "packages")
+    const workspaceConfig = vscode.workspace.getConfiguration("banjo")
+    const configPath = workspaceConfig.get<string>("projectFile");
 
-    if (configURIs.length == 0) {
+    try {
+        const configFullPath = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, configPath);
+        const configURI = vscode.Uri.file(configFullPath);
+        await vscode.workspace.fs.stat(configURI);
+    } catch (e) {
+        client = null;
+        vscode.window.showErrorMessage(`Banjo error: project file '${configPath}' does not exist`)
         return;
     }
 
-    const configURI = configURIs[0];
-    
     let target = workspaceConfig.get<string>("target");
     let arch = "x86_64";
     let os = "windows";
@@ -51,7 +54,7 @@ async function startServer() {
             "--os", os
         ],
         options: {
-            cwd: path.dirname(configURI.fsPath)
+            cwd: path.dirname(configPath)
         }
     };
 
@@ -62,12 +65,20 @@ async function startServer() {
 
     client = new LanguageClient(
         "banjoLanguageClient",
-        "Banjo Language Client",
+        "Banjo",
         serverOptions,
         clientOptions
     );
 
     client.start();
+}
+
+async function restartServer() {
+    if (client != null) {
+        client.stop();
+    }
+
+    startServer();
 }
 
 export function deactivate(): Thenable<void> | undefined {

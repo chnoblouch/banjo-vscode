@@ -59,6 +59,11 @@
         "configuration": {
             "title": "Banjo",
             "properties": {
+                "banjo.projectFile": {
+                    "type": "string",
+                    "default": "banjo.json",
+                    "description": "Path to the Banjo project file (banjo.json)"
+                },
                 "banjo.target": {
                     "type": "string",
                     "default": null,
