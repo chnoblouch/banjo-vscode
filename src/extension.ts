@@ -26,9 +26,9 @@ export function activate(context: vscode.ExtensionContext) {
 async function startServer() {
     const workspaceConfig = vscode.workspace.getConfiguration("banjo")
     const configPath = workspaceConfig.get<string>("projectFile");
+    const configFullPath = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, configPath);
 
     try {
-        const configFullPath = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, configPath);
         const configURI = vscode.Uri.file(configFullPath);
         await vscode.workspace.fs.stat(configURI);
     } catch (e) {
@@ -54,7 +54,7 @@ async function startServer() {
             "--os", os
         ],
         options: {
-            cwd: path.dirname(configPath)
+            cwd: path.dirname(configFullPath)
         }
     };
 
