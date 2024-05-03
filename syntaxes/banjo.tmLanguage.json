@@ -140,7 +140,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.banjo",
-					"match": "\\b(if|else|switch|case|while|for|break|continue|return)\\b"
+					"match": "\\b(if|else|switch|case|try|while|for|break|continue|return)\\b"
 				},
 				{
 					"name": "keyword.const.banjo",
