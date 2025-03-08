@@ -2,18 +2,13 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version'
-        required: true
-        type: string
 
 jobs:
   release:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Install VSCE
       run: npm install -g @vscode/vsce
@@ -30,9 +25,9 @@ jobs:
     - name: Release
       run: |
         gh release create \
-          -t "banjo-vscode ${{ inputs.version }}" \
-          -n "banjo-vscode ${{ inputs.version }}" \
-          "v${{ inputs.version }}" \
+          -t "banjo-vscode $(date -Idate)" \
+          -n "banjo-vscode $(date -Idate)" \
+          "$(date -Idate)" \
           banjo-language.vsix
       env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
