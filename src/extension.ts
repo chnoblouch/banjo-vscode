@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import * as fs from "fs";
 import { LanguageClient, LanguageClientOptions, Executable } from "vscode-languageclient/node";
 import { BanjoTaskProvider } from "./taskProvider";
 
@@ -20,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (event.affectsConfiguration("banjo.projectFile") || event.affectsConfiguration("banjo.target")) {
             restartServer();
         }
-    })
+    });
 }
 
 async function startServer() {
@@ -37,22 +36,16 @@ async function startServer() {
         return;
     }
 
+    let args = ["lsp"];
+    
     let target = workspaceConfig.get<string>("target");
-    let arch = "x86_64";
-    let os = "windows";
-
     if (target !== null) {
-        let elements = target.split('-')
-        arch = elements[0]
-        os = elements[1]
+        args.push("--target", target);
     }
 
     let serverOptions: Executable = {
-        command: "banjo-lsp",
-        args: [
-            "--arch", arch,
-            "--os", os
-        ],
+        command: "banjo",
+        args: args,
         options: {
             cwd: path.dirname(configFullPath)
         }
