@@ -148,7 +148,7 @@
 				},
 				{
 					"name": "keyword.other.banjo",
-					"match": "\\b(pub|const|export|as|native|in|meta|type|except)\\b"
+					"match": "\\b(pub|var|ref|mut|const|export|as|native|in|meta|type|except)\\b"
 				}
 			]
 		},
