@@ -44,7 +44,7 @@ async function startServer() {
     }
 
     let serverOptions: Executable = {
-        command: "banjo",
+        command: "banjo2",
         args: args,
         options: {
             cwd: path.dirname(configFullPath)
