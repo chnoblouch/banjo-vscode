@@ -42,6 +42,12 @@
                 "path": "./syntaxes/banjo.tmLanguage.json"
             }
         ],
+        "commands": [
+            {
+                "command": "banjo.restartLanguageServer",
+                "title": "Banjo: Restart Language Server"
+            }
+        ],
         "taskDefinitions": [
             {
                 "type": "banjo",

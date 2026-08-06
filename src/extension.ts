@@ -20,12 +20,14 @@ export function activate(context: vscode.ExtensionContext) {
             restartServer();
         }
     });
+
+    context.subscriptions.push(vscode.commands.registerCommand("banjo.restartLanguageServer", restartServer));
 }
 
 async function startServer() {
     const workspaceConfig = vscode.workspace.getConfiguration("banjo")
-    const configPath = workspaceConfig.get<string>("projectFile");
-    const configFullPath = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, configPath);
+    const configPath = workspaceConfig.get<string>("projectFile")!;
+    const configFullPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, configPath);
 
     try {
         const configURI = vscode.Uri.file(configFullPath);
@@ -38,7 +40,7 @@ async function startServer() {
 
     let args = ["lsp"];
 
-    let target = workspaceConfig.get<string>("target");
+    let target = workspaceConfig.get<string>("target")!;
     if (target !== null) {
         args.push("--target", target);
     }
