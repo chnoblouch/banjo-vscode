@@ -37,14 +37,14 @@ async function startServer() {
     }
 
     let args = ["lsp"];
-    
+
     let target = workspaceConfig.get<string>("target");
     if (target !== null) {
         args.push("--target", target);
     }
 
     let serverOptions: Executable = {
-        command: "banjo2",
+        command: "banjo",
         args: args,
         options: {
             cwd: path.dirname(configFullPath)
