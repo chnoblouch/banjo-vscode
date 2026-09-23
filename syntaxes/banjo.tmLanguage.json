@@ -19,7 +19,7 @@
                 },
                 {
                     "name": "keyword.other.banjo",
-                    "match": "\\b(pub|var|ref|mut|const|as|native|in|meta|type|except|func|struct|enum|union|proto|use|self)\\b"
+                    "match": "\\b(pub|var|ref|mut|share|const|as|native|in|meta|type|except|func|struct|enum|union|proto|use|self|move)\\b"
                 },
                 {
                     "name": "constant.numeric.banjo",
@@ -56,7 +56,7 @@
                 },
                 {
                     "name": "support.type.primitive.banjo",
-                    "match": "\\b((i|u)(8|16|32|64|size)|f32|f64|bool|addr)\\b"
+                    "match": "\\b((i|u)(8|16|32|64|size)|f32|f64|bool|char|addr)\\b"
                 },
                 {
                     "name": "variable.banjo",
